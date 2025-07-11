@@ -10,7 +10,7 @@ app.use(express.json());
 
 app.post("/send", async (req, res) => {
   try {
-    console.log("POST /send called with body:", req.body); // 🔍 log input
+    console.log("POST /send called with body:", req.body); 
 
     const { email, subject, body, idempotencyKey } = req.body;
     const key = idempotencyKey || uuidv4();
@@ -18,7 +18,7 @@ app.post("/send", async (req, res) => {
     const result = await emailService.send(email, subject, body, key);
     res.json({ idempotencyKey: key, ...result });
   } catch (err) {
-    console.error("Error in /send route:", err); // 🔍 log crash
+    console.error("Error in /send route:", err); 
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
