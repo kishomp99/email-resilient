@@ -1,8 +1,8 @@
 class ProviderA {
   async sendEmail(email, subject, body) {
-  console.log("❌ Provider A failed");
-  throw new Error("Simulated failure");
-}
+    if (Math.random() < 0.7) return true;
+    throw new Error("ProviderA failed");
+  }
 }
 
 module.exports = ProviderA;
