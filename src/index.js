@@ -9,12 +9,20 @@ const emailService = new EmailService();
 app.use(express.json());
 
 app.post("/send", async (req, res) => {
-  const { email, subject, body, idempotencyKey } = req.body;
-  const key = idempotencyKey || uuidv4();
+  try {
+    console.log("POST /send called with body:", req.body); // 🔍 log input
 
-  const result = await emailService.send(email, subject, body, key);
-  res.json({ idempotencyKey: key, ...result });
+    const { email, subject, body, idempotencyKey } = req.body;
+    const key = idempotencyKey || uuidv4();
+
+    const result = await emailService.send(email, subject, body, key);
+    res.json({ idempotencyKey: key, ...result });
+  } catch (err) {
+    console.error("Error in /send route:", err); // 🔍 log crash
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
+
 
 app.get("/status/:key", (req, res) => {
   const status = emailService.getStatus(req.params.key);
