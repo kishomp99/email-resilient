@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require("uuid");
 const EmailService = require("./EmailService");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const emailService = new EmailService();
 
 app.use(express.json());
